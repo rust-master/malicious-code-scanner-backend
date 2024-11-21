@@ -55,8 +55,14 @@ app.get('/', (req, res) => {
 
 // Define the GET API route
 app.get('/search', (req, res) => {
-    const projectID = encodeURIComponent("Zaryab/CryptoView");
-    const source = `https://gitlab.invozone.com/api/v4/projects/${projectID}/repository/archive`;
+    const { hostname, projectID } = req.query;
+
+    // const projectID = encodeURIComponent("Zaryab/CryptoView");
+    if (!hostname || !projectID) {
+        return res.status(400).json({ error: 'hostname and projectID are required' });
+    }
+
+    const source = `https://${hostname}/api/v4/projects/${projectID}/repository/archive`;
 
     console.log("🚀 ~ app.get ~ source:", source);
 
