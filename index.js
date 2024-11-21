@@ -1,6 +1,7 @@
 const express = require('express');
 const request = require('request');
 const zlib = require('zlib');
+const cors = require('cors');
 const app = express();
 const port = 4000;
 
@@ -46,6 +47,12 @@ function searchArchive(source, cb) {
         });
     });
 }
+
+app.use(cors({
+    origin: 'https://malicious-code-scanner.vercel.app',  // Allow only the frontend URL
+}));
+
+app.use(express.json());
 
 
 app.get('/', (req, res) => {
